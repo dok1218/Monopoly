@@ -6,7 +6,7 @@ import random
 
 # define the number of games to play and how many dice throws each game should have, also defines the variable "board"
 # which will be the list that stores the number of times each position is landed on
-n_games = 10
+n_games = 1000
 n_throws = 120
 board = []
 
@@ -26,8 +26,6 @@ for _ in range(n_games):
             while position < 39:
                 dice_sum = dice_sum - 1
                 position = position + 1
-            position = 0 # moved around the board once so sets position back to starting position
+            position = -1 # allows the piece to carry on from position 39 without exceeding the limit of 40 positions
             position = position + dice_sum
             board[position] = board[position] + 1
-
-print(board) # need to find out how to record number of times position 0 is landed on exactly
