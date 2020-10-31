@@ -10,6 +10,10 @@ n_games = 1000
 n_throws = 120
 board = []
 
+# create lists to represent the Chance and Community chest cards
+Chance = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+Community_chest = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+
 # define the list variable which will store information about how many times each position is landed on
 for _ in range(0, 40):
     board.append(0)
