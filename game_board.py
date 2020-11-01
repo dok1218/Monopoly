@@ -14,6 +14,26 @@ board = []
 Chance = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
 Community_chest = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
 
+# function to deal with moving to the nearest station card
+def nearest_station(position_x):
+    global position
+    if position_x == 7:
+        position = 15
+    elif position_x == 22:
+        position = 25
+    elif position_x == 36:
+        position = 5
+
+# function to deal with moving to the nearest utility card
+def nearest_utility(position_x):
+    global position
+    if position_x == 7:
+        position = 12
+    elif position_x == 22:
+        position = 28
+    elif position_x == 36:
+        position = 12
+
 # function to deal with the chance positions
 def chance_card(position_x):
     if position_x == 7 or 22 or 36:
@@ -26,9 +46,9 @@ def chance_card(position_x):
         elif current_card == 2:
             position = 11
         elif current_card == 3:
-            position = 13 # need to change this bit to deal with move to nearest utility
+            nearest_utility(position_x)
         elif current_card == 4:
-            positon = 6 # need to change this bit to deal with move to nearest station
+            nearest_station(position_x)
         elif current_card == 8:
             position = 10
         elif current_card == 11:
