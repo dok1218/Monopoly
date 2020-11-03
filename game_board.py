@@ -7,7 +7,7 @@ import random
 # define the number of games to play and how many dice throws each game should have, also defines the variable "board"
 # which will be the list that stores the number of times each position is landed on, variables "house", "hotel" and "streets"
 # govern which set of streets you will own and the program will calculate financial outcome based on this
-n_games = 1000
+n_games = 10000
 n_throws = 120
 board = []
 rent = []
@@ -141,12 +141,8 @@ for _ in range(n_games):
                 chance_card(position)  # checks if the new position is a chance card and if so, draws and applies effect
             board[position] = board[position] + 1  # logs that the new position was landed on
             rent_amount[position] = rent_amount[position] + rent[position] # logs the amount of rent incurred from landing on the position
-        else: # deals with the case when piece has moved all the way around the board
-            while position < 39:
-                dice_sum = dice_sum - 1
-                position = position + 1
-            position = -1 # allows the piece to carry on from position 39 without exceeding the limit of 40 positions
-            position = position + dice_sum
+        elif (position + dice_sum) >39: # deals with the case when piece has moved all the way around the board
+            position = position + dice_sum -40 # resets the board
             community_card(position) # checks if the new position is a community card and if so, draws and applies effect
             chance_card(position) # checks if the new position is a chance card and if so, draws and applies effect
             board[position] = board[position] + 1
