@@ -7,7 +7,7 @@ import random
 # define the number of games to play and how many dice throws each game should have, also defines the variable "board"
 # which will be the list that stores the number of times each position is landed on, variables "house", "hotel" and "streets"
 # govern which set of streets you will own and the program will calculate financial outcome based on this
-n_games = 100
+n_games = 1000
 n_throws = 120
 board = []
 rent = []
@@ -15,6 +15,8 @@ house = 0
 hotel = 0
 streets = [11, 13, 14]
 rent_amount = []
+total_hits = 0
+percentage_hits = []
 
 # create list which will store the total money earnt from rent on selected owned properties
 for _ in range(0, 40):
@@ -34,7 +36,7 @@ house_4 = [0, 160, 0, 320, 0, 0, 400, 0, 400, 450, 0, 625, 0, 625, 700, 0, 750, 
 with_hotels = [0, 250, 0, 450, 0, 0, 550, 0, 550, 600, 0, 750, 0, 750, 900, 0, 950, 0, 950, 1000, 0, 1050, 0, 1050, 1100, 0, 1150, 1150, 0, 1200, 0, 1275, 1275, 0, 1400, 0, 0, 1500, 0, 2000]
 
 # set the rent value for owned properties
-if house == 0 and hotel == 0:
+if (house == 0) and (hotel == 0):
     for x in range(len(streets)):
         y = streets[x]
         rent[y] = base_rent[y]
@@ -81,7 +83,7 @@ def nearest_utility(position_x):
 
 # function to deal with the chance positions
 def chance_card(position_x):
-    if position_x == 7 or 22 or 36:
+    if (position_x == 7) or (position_x == 22) or (position_x == 36):
         current_card = Chance[0]
         global position # makes sure that the variable "position" refers to the global variable
         if current_card == 0:
@@ -94,6 +96,8 @@ def chance_card(position_x):
             nearest_utility(position_x)
         elif current_card == 4:
             nearest_station(position_x)
+        elif current_card == 7:
+            position = position - 3
         elif current_card == 8:
             position = 10
         elif current_card == 11:
@@ -106,7 +110,7 @@ def chance_card(position_x):
 
 # function to deal with the community card poistions
 def community_card(position_x):
-    if position_x == 2 or 17 or 33:
+    if (position_x == 2) or (position_x == 17) or (position_x == 33):
         current_card = Community_chest[0]
         global position # makes sure that the variable "position" refers to the global variable
         if current_card == 0:
@@ -147,4 +151,16 @@ for _ in range(n_games):
             chance_card(position) # checks if the new position is a chance card and if so, draws and applies effect
             board[position] = board[position] + 1
             rent_amount[position] = rent_amount[position] + rent[position] # logs the amount of rent incurred from landing on the position
-print(board) # just exists to check that nothing is very wrong with the code
+
+# calculate the percentage of total positions landed on each street constitutes
+for _ in range(0, 40):
+    percentage_hits.append(0)
+for i in range(len(board)):
+    total_hits = total_hits + board[i]
+for i in range(len(percentage_hits)):
+    percentage_hits[i] = 100 * (board[i]/total_hits)
+
+print(percentage_hits) # just exists to check that nothing is very wrong with the code
+print(position)
+print(Chance)
+print(Community_chest)
