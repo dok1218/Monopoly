@@ -8,7 +8,7 @@ import random
 # define the number of games to play and how many dice throws each game should have, also defines the variable "board"
 # which will be the list that stores the number of times each position is landed on, variables "house", "hotel" and "streets"
 # govern which set of streets you will own and the program will calculate financial outcome based on this
-n_games = 10000
+n_games = 100
 n_throws = 120
 board = []
 #rent = []
@@ -160,8 +160,9 @@ for i in range(len(percentage_hits)):
 
 # store results in an excel worbook, for now will use text file instead
 #wb = openpyxl.Workbook() # creates a new workbook in the root folder and opens it, comment out if using a pre existing sheet
-f = open("base_rent.txt","w+") # creates a text file
-with open("base_rent", "w") as br:
+f = open("base_rent.txt","w") #creates a text file
+f.close() # closes the newly created text file
+with open("base_rent.txt", "w") as br:
     br.write("\n".join(str(w) for w in rent_amount)) # writes the list rent_amount to txt file line by line
 
 # print(percentage_hits)
