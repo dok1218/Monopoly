@@ -3,7 +3,7 @@
 
 # import modules needed for the code
 import random
-import openpyxl
+# import openpyxl # currentyly there is a windows bug preventing openpyxl module from working
 
 # define the number of games to play and how many dice throws each game should have, also defines the variable "board"
 # which will be the list that stores the number of times each position is landed on, variables "house", "hotel" and "streets"
@@ -159,8 +159,7 @@ for i in range(len(percentage_hits)):
     percentage_hits[i] = 100 * (board[i]/total_hits)
 
 # store results in an excel worbook
-wb = openpyxl.Workbook() # creates a new workbook in the root folder and opens it, comment out if using a pre existing sheet
-
+# wb = openpyxl.Workbook() # creates a new workbook in the root folder and opens it, comment out if using a pre existing sheet
 
 # print(percentage_hits)
 # print(position)
