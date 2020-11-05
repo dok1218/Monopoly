@@ -3,6 +3,7 @@
 
 # import modules needed for the code
 import random
+import openpyxl
 
 # define the number of games to play and how many dice throws each game should have, also defines the variable "board"
 # which will be the list that stores the number of times each position is landed on, variables "house", "hotel" and "streets"
@@ -10,7 +11,7 @@ import random
 n_games = 10000
 n_throws = 120
 board = []
-rent = []
+#rent = []
 house = 0
 hotel = 0
 streets = [11, 13, 14]
@@ -20,7 +21,7 @@ percentage_hits = []
 
 # create list which will store the total money earnt from rent on selected owned properties
 for _ in range(0, 40):
-    rent.append(0)
+#    rent.append(0)
     rent_amount.append(0)
 
 # create lists to represent the Chance and Community chest cards and the corresponding positions they move to
@@ -36,30 +37,31 @@ house_4 = [0, 160, 0, 320, 0, 0, 400, 0, 400, 450, 0, 625, 0, 625, 700, 0, 750, 
 with_hotels = [0, 250, 0, 450, 0, 0, 550, 0, 550, 600, 0, 750, 0, 750, 900, 0, 950, 0, 950, 1000, 0, 1050, 0, 1050, 1100, 0, 1150, 1150, 0, 1200, 0, 1275, 1275, 0, 1400, 0, 0, 1500, 0, 2000]
 
 # set the rent value for owned properties
-if (house == 0) and (hotel == 0):
-    for x in range(len(streets)):
-        y = streets[x]
-        rent[y] = base_rent[y]
-elif house == 1:
-    for x in range(len(streets)):
-        y = streets[x]
-        rent[y] = house_1[y]
-elif house == 2:
-    for x in range(len(streets)):
-        y = streets[x]
-        rent[y] = house_2[y]
-elif house == 3:
-    for x in range(len(streets)):
-        y = streets[x]
-        rent[y] = house_3[y]
-elif house == 4:
-    for x in range(len(streets)):
-        y = streets[x]
-        rent[y] = house_4[y]
-elif hotel == 1:
-    for x in range(len(streets)):
-        y = streets[x]
-        rent[y] = with_hotels[y]
+rent = base_rent # sets the rent value for all properties
+# if (house == 0) and (hotel == 0):
+#     for x in range(len(streets)):
+#         y = streets[x]
+#         rent[y] = base_rent[y]
+# elif house == 1:
+#     for x in range(len(streets)):
+#         y = streets[x]
+#         rent[y] = house_1[y]
+# elif house == 2:
+#     for x in range(len(streets)):
+#         y = streets[x]
+#         rent[y] = house_2[y]
+# elif house == 3:
+#     for x in range(len(streets)):
+#         y = streets[x]
+#         rent[y] = house_3[y]
+# elif house == 4:
+#     for x in range(len(streets)):
+#         y = streets[x]
+#         rent[y] = house_4[y]
+# elif hotel == 1:
+#     for x in range(len(streets)):
+#         y = streets[x]
+#         rent[y] = with_hotels[y]
 
 # function to deal with moving to the nearest station card
 def nearest_station(position_x):
@@ -156,7 +158,11 @@ for i in range(len(board)):
 for i in range(len(percentage_hits)):
     percentage_hits[i] = 100 * (board[i]/total_hits)
 
-print(percentage_hits) # just exists to check that nothing is very wrong with the code
-print(position)
-print(Chance)
-print(Community_chest)
+# store results in an excel worbook
+wb = openpyxl.Workbook() # creates a new workbook in the root folder and opens it, comment out if using a pre existing sheet
+
+
+# print(percentage_hits)
+# print(position)
+# print(Chance)
+# print(Community_chest)
