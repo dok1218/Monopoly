@@ -9,7 +9,7 @@ import numpy as np
 # define the number of games to play and how many dice throws each game should have, also defines the variable "board"
 # which will be the list that stores the number of times each position is landed on, variables "house", "hotel" and "streets"
 # govern which set of streets you will own and the program will calculate financial outcome based on this
-n_games = 10
+n_games = 1000000
 n_throws_list = [90, 120, 150]
 board = []
 house = 0
@@ -116,30 +116,22 @@ for n in range(0,3):
             random.shuffle(Community_chest)
             position = 0  # sets the starting position for the game
             for _ in range(n_throws):
-                dice_sum = random.randint(1, 6) + random.randint(1,
-                                                                 6)  # stores the sum of two random integers betweem 1 and 6
+                dice_sum = random.randint(1, 6) + random.randint(1,6)  # stores the sum of two random integers betweem 1 and 6
                 if (position + dice_sum) <= 39:
                     if (position + dice_sum) == 30:  # scenario where "go to jail" is landed on
                         position = 11
                     else:
                         position = position + dice_sum  # updates the new postion of the piece
-                        community_card(
-                            position)  # checks if the new position is a community card and if so, draws and applies effect
-                        chance_card(
-                            position)  # checks if the new position is a chance card and if so, draws and applies effect
+                        community_card(position)  # checks if the new position is a community card and if so, draws and applies effect
+                        chance_card(position)  # checks if the new position is a chance card and if so, draws and applies effect
                     board[position] = board[position] + 1  # logs that the new position was landed on
-                    rent_amount[position] = rent_amount[position] + rent[
-                        i, position]  # logs the amount of rent incurred from landing on the position
-                elif (
-                        position + dice_sum) > 39:  # deals with the case when piece has moved all the way around the board
+                    rent_amount[position] = rent_amount[position] + rent[i, position]  # logs the amount of rent incurred from landing on the position
+                elif (position + dice_sum) > 39:  # deals with the case when piece has moved all the way around the board
                     position = position + dice_sum - 40  # resets the board
-                    community_card(
-                        position)  # checks if the new position is a community card and if so, draws and applies effect
-                    chance_card(
-                        position)  # checks if the new position is a chance card and if so, draws and applies effect
+                    community_card(position)  # checks if the new position is a community card and if so, draws and applies effect
+                    chance_card(position)  # checks if the new position is a chance card and if so, draws and applies effect
                     board[position] = board[position] + 1
-                    rent_amount[position] = rent_amount[position] + rent[
-                        i, position]  # logs the amount of rent incurred from landing on the position
+                    rent_amount[position] = rent_amount[position] + rent[i, position]  # logs the amount of rent incurred from landing on the position
 
         # calculate the percentage of total positions landed on each street constitutes
         for x in range(len(board)):
