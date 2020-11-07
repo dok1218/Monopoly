@@ -9,8 +9,8 @@ import numpy as np
 # define the number of games to play and how many dice throws each game should have, also defines the variable "board"
 # which will be the list that stores the number of times each position is landed on, variables "house", "hotel" and "streets"
 # govern which set of streets you will own and the program will calculate financial outcome based on this
-n_games = 100
-n_throws = 120
+n_games = 10
+n_throws_list = [90, 120, 150]
 board = []
 house = 0
 hotel = 0
@@ -103,58 +103,70 @@ def community_card(position_x):
 for _ in range(0, 40):
     board.append(0)
 
-file_name = ["base_rent.txt", "1_house.txt", "2_houses.txt", "3_houses.txt", "4_houses.txt", "hotel.txt"]
+file_name = np.array([["base_rent90.txt", "1_house90.txt", "2_houses90.txt", "3_houses90.txt", "4_houses90.txt", "hotel90.txt"],
+                      ["base_rent120.txt", "1_house120.txt", "2_houses120.txt", "3_houses120.txt", "4_houses120.txt", "hotel120.txt"],
+                      ["base_rent150.txt", "1_house150.txt", "2_houses150.txt", "3_houses150.txt", "4_houses150.txt", "hotel150.txt"]])
 
 # code to run the game
-for i in range(0, 5):
-    for _ in range(n_games):
-        random.shuffle(Chance)  # shuffles the Chance and Community chest cards
-        random.shuffle(Community_chest)
-        position = 0  # sets the starting position for the game
-        for _ in range(n_throws):
-            dice_sum = random.randint(1, 6) + random.randint(1,6)  # stores the sum of two random integers betweem 1 and 6
-            if (position + dice_sum) <= 39:
-                if (position + dice_sum) == 30:  # scenario where "go to jail" is landed on
-                    position = 11
-                else:
-                    position = position + dice_sum  # updates the new postion of the piece
-                    community_card(position)  # checks if the new position is a community card and if so, draws and applies effect
-                    chance_card(position)  # checks if the new position is a chance card and if so, draws and applies effect
-                board[position] = board[position] + 1  # logs that the new position was landed on
-                rent_amount[position] = rent_amount[position] + rent[i, position]  # logs the amount of rent incurred from landing on the position
-            elif (position + dice_sum) > 39:  # deals with the case when piece has moved all the way around the board
-                position = position + dice_sum - 40  # resets the board
-                community_card(position)  # checks if the new position is a community card and if so, draws and applies effect
-                chance_card(position)  # checks if the new position is a chance card and if so, draws and applies effect
-                board[position] = board[position] + 1
-                rent_amount[position] = rent_amount[position] + rent[i, position]  # logs the amount of rent incurred from landing on the position
+for n in range(0,3):
+    n_throws = n_throws_list[n]
+    for i in range(0, 6):
+        for _ in range(n_games):
+            random.shuffle(Chance)  # shuffles the Chance and Community chest cards
+            random.shuffle(Community_chest)
+            position = 0  # sets the starting position for the game
+            for _ in range(n_throws):
+                dice_sum = random.randint(1, 6) + random.randint(1,
+                                                                 6)  # stores the sum of two random integers betweem 1 and 6
+                if (position + dice_sum) <= 39:
+                    if (position + dice_sum) == 30:  # scenario where "go to jail" is landed on
+                        position = 11
+                    else:
+                        position = position + dice_sum  # updates the new postion of the piece
+                        community_card(
+                            position)  # checks if the new position is a community card and if so, draws and applies effect
+                        chance_card(
+                            position)  # checks if the new position is a chance card and if so, draws and applies effect
+                    board[position] = board[position] + 1  # logs that the new position was landed on
+                    rent_amount[position] = rent_amount[position] + rent[
+                        i, position]  # logs the amount of rent incurred from landing on the position
+                elif (
+                        position + dice_sum) > 39:  # deals with the case when piece has moved all the way around the board
+                    position = position + dice_sum - 40  # resets the board
+                    community_card(
+                        position)  # checks if the new position is a community card and if so, draws and applies effect
+                    chance_card(
+                        position)  # checks if the new position is a chance card and if so, draws and applies effect
+                    board[position] = board[position] + 1
+                    rent_amount[position] = rent_amount[position] + rent[
+                        i, position]  # logs the amount of rent incurred from landing on the position
 
-    # calculate the percentage of total positions landed on each street constitutes
-    for x in range(len(board)):
-        total_hits = total_hits + board[x]
-    for y in range(len(percentage_hits)):
-        percentage_hits[y] = 100 * (board[y] / total_hits)
+        # calculate the percentage of total positions landed on each street constitutes
+        for x in range(len(board)):
+            total_hits = total_hits + board[x]
+        for y in range(len(percentage_hits)):
+            percentage_hits[y] = 100 * (board[y] / total_hits)
 
-    # store results in a text file
-    f = open(file_name[i], "w")  # creates a text file
-    f.close()  # closes the newly created text file
-    with open(file_name[i], "w") as f:
-        f.write("Percentage hits:")
-        f.write("\n")
-        f.write("\n")
-        f.write("\n".join(str(w) for w in percentage_hits))
-        f.write("\n")
-        f.write("\n")
-        f.write("Rent amounts:")
-        f.write("\n")
-        f.write("\n")
-        f.write("\n".join(str(w) for w in rent_amount))
+        # store results in a text file
+        f = open(file_name[n, i], "w")  # creates a text file
+        f.close()  # closes the newly created text file
+        with open(file_name[n, i], "w") as f:
+            f.write("Percentage hits:")
+            f.write("\n")
+            f.write("\n")
+            f.write("\n".join(str(w) for w in percentage_hits))
+            f.write("\n")
+            f.write("\n")
+            f.write("Rent amounts:")
+            f.write("\n")
+            f.write("\n")
+            f.write("\n".join(str(w) for w in rent_amount))
 
-    # set all variables to 0 for the next iteration of the code (total_hits, board, rent_amount, percentage_hits)
-    total_hits = 0
-    for z in range(len(board)):
-        board[z] = 0
-    for a in range(len(rent_amount)):
-        rent_amount[a] = 0
-    for b in range(len(percentage_hits)):
-        percentage_hits[b] = 0
+        # set all variables to 0 for the next iteration of the code (total_hits, board, rent_amount, percentage_hits)
+        total_hits = 0
+        for z in range(len(board)):
+            board[z] = 0
+        for a in range(len(rent_amount)):
+            rent_amount[a] = 0
+        for b in range(len(percentage_hits)):
+            percentage_hits[b] = 0
