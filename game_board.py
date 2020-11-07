@@ -139,7 +139,16 @@ for i in range(0, 5):
     f = open(file_name[i], "w")  # creates a text file
     f.close()  # closes the newly created text file
     with open(file_name[i], "w") as f:
-        f.write("\n".join(str(w) for w in rent_amount))  # writes the list rent_amount to txt file line by line
+        f.write("Percentage hits:")
+        f.write("\n")
+        f.write("\n")
+        f.write("\n".join(str(w) for w in percentage_hits))
+        f.write("\n")
+        f.write("\n")
+        f.write("Rent amounts:")
+        f.write("\n")
+        f.write("\n")
+        f.write("\n".join(str(w) for w in rent_amount))
 
     # set all variables to 0 for the next iteration of the code (total_hits, board, rent_amount, percentage_hits)
     total_hits = 0
